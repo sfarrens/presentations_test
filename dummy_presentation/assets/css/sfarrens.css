@@ -376,6 +376,38 @@ body.dark-mode .reveal section img {
   color: var(--r-muted);
 }
 
+/* ── Copy-to-clipboard button ──────────────────────────────── */
+.reveal pre { position: relative; }
+
+.code-copy-btn {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--r-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.reveal pre:hover .code-copy-btn { opacity: 1; }
+
+.code-copy-btn:hover {
+  background: var(--r-inline-bg);
+  color: var(--r-accent);
+  opacity: 1;
+}
+
+.code-copy-btn.copied { color: #4caf50; opacity: 1; }
+
 /* ── Dark-mode toggle button ───────────────────────────────── */
 #theme-toggle {
   position: fixed;
