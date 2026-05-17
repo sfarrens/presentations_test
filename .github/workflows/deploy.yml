@@ -1,0 +1,68 @@
+name: Deploy Presentations to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Clone reveal.js
+        run: git clone --depth 1 --branch 3.7.0 https://github.com/hakimel/reveal.js.git reveal.js
+
+      - name: Build presentations
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+
+          for dir in */; do
+            name="${dir%/}"
+            if [ -f "${name}/_config.yml" ]; then
+              echo "Building presentation: ${name}"
+              cp -r reveal.js "${name}/reveal.js"
+              bundle exec jekyll build \
+                --source "${name}" \
+                --destination "_site/${name}" \
+                --baseurl "/presentations/${name}"
+              rm -rf "${name}/reveal.js"
+            fi
+          done
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

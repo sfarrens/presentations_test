@@ -1,0 +1,56 @@
+# Your presentation title
+title: Dummy Presentation
+
+# Your presentation description (optional)
+description: A dummy presentation to demonstrate the multi-presentation setup
+
+# Your name (optional)
+author: Samuel Farrens
+
+# The Reveal theme
+reveal_theme: night_plus.css
+
+# The Reveal transition
+reveal_transition: default
+
+# Path to the used theme (defaults to the Reveal.js standard theme path)
+reveal_theme_path: assets/css/
+
+# Additional custom CSS paths
+extra_css:
+
+# Custom CSS for highlighting (defaults to reveal.js/lib/css/zenburn.css)
+highlight_style_sheet:
+
+# Embed Server-side speaker notes?
+reveal_notes_server: false
+
+# Additional reveal.js options
+reveal_options:
+  width: 100%
+  height: 100%
+  slideNumber: false
+  transition: 'slide'
+  margin: 0.3
+
+# Additional reveal.js dependencies
+reveal_dependencies:
+  - "{ src: 'reveal.js/plugin/math/math.js'},"
+
+# Reveal.js subdirectory
+reveal_path: reveal.js/
+
+# mermaid.js diagram integration
+mermaid_diagrams: true
+mermaid_theme: dark
+
+# Exclude directories and/or files from the conversion
+exclude:
+  - Gemfile*
+  - LICENSE
+  - README.md
+
+# Don't change anything below
+markdown: kramdown
+highlighter: rouge
+markdown_ext: ignoreme

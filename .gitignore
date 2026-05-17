@@ -1,0 +1,9 @@
+# Generated site (transformed by Jekyll)
+_site/
+
+# Bundler configuration & artifacts
+.bundle/config
+Gemfile.lock
+
+# reveal.js (cloned at build time by the CI workflow)
+*/reveal.js/
