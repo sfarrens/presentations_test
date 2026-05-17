@@ -5,41 +5,29 @@
 		<meta charset="utf-8">
 
 		{% if site.title %}<title>{{ site.title }}</title>{% endif %}
-
 		{% if site.description %}<meta name="description" content="{{ site.description }}">{% endif %}
 		{% if site.author %}<meta name="author" content="{{ site.author }}">{% endif %}
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<!-- Restore saved theme before stylesheets paint to avoid a flash -->
+		<script>
+			(function () {
+				var stored = localStorage.getItem('dark-mode');
+				var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				var isDark = stored !== null ? stored === 'true' : prefersDark;
+				if (isDark) document.documentElement.classList.add('pre-dark');
+			})();
+		</script>
+		<style>
+			/* Applied before body exists so the background doesn't flash on dark */
+			html.pre-dark body { background-color: #282c36 !important; }
+		</style>
 
 		<link rel="stylesheet" href="{{ site.reveal_path }}css/reveal.css">
 		<link rel="stylesheet" href="{{ site.reveal_theme_path }}{{ site.reveal_theme }}" id="theme">
-		<style>
-			.copy-button {
-				position: absolute;
-				top: 0.5rem;
-				right: 0.5rem;
-				padding: 0.25rem 0.5rem;
-				background: rgba(255, 255, 255, 0.1);
-				border: 1px solid rgba(255, 255, 255, 0.2);
-				border-radius: 4px;
-				color: #fff;
-				cursor: pointer;
-				font-size: 0.8rem;
-				opacity: 0;
-				transition: opacity 0.2s;
-			}
-			pre:hover .copy-button {
-				opacity: 1;
-			}
-			.copy-button:hover {
-				background: rgba(255, 255, 255, 0.2);
-			}
-			.copy-button.copied {
-				background: rgba(0, 255, 0, 0.2);
-			}
-		</style>
+
 {% if site.extra_css %}
 	{% for css_file in site.extra_css %}
 		<link rel="stylesheet" href="{{ css_file }}">
@@ -48,15 +36,16 @@
 {% if site.mermaid_diagrams %}
 		<link rel="stylesheet" href="{{ 'assets/css/mermaid.css' | relative_url }}">
 {% endif %}
-		<!-- For syntax highlighting -->
+
+		<!-- Syntax highlighting -->
 		{% if site.highlight_style_sheet %}
 			{% assign highlight_style_sheet = site.highlight_style_sheet %}
 		{% else %}
-			{% capture highlight_style_sheet %}{{ site.reveal_path }}lib/css/zenburn.css {% endcapture %}
+			{% capture highlight_style_sheet %}{{ site.reveal_path }}lib/css/zenburn.css{% endcapture %}
 		{% endif %}
 		<link rel="stylesheet" href="{{ highlight_style_sheet }}">
 
-		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<!-- PDF print sheet -->
 		<script>
 			document.write( '<link rel="stylesheet" href="{{ site.reveal_path }}css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
 		</script>
@@ -68,22 +57,24 @@
 
 	<body>
 
-		<div class="reveal">
+		<!-- Theme toggle: moon shown in light mode, sun shown in dark mode -->
+		<button id="theme-toggle" aria-label="Toggle light / dark mode"></button>
 
+		<div class="reveal">
 			<div class="slides">
 
-				{% for post in site.posts reversed %}
+				{% for slide in site.slides %}
 				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$" data-notes="^Note:">
 					<script type="text/template">
 {%
-						assign lines = post.content | newline_to_br | strip_newlines | split: "<br />"
+						assign lines = slide.content | newline_to_br | strip_newlines | split: "<br />"
 %}{%
 						assign mermaid_theme = site.mermaid_theme | default: 'dark'
 %}{%
 						assign mermaid_span = '<!-- .slide: class="diagram-slide" data-transition="none"--><span class="diagram-data" style="display:none;">%%{init: {&#39;theme&#39;:&#39;' | append: mermaid_theme | append: '&#39;}}%%'
 %}{%
 						for line in lines
-%}{% 
+%}{%
 							assign processed_line = line
 								| replace:'<fragment/>','<!-- .element: class="fragment" -->'
 								| replace:'<background>','<!-- .slide: data-background="'
@@ -95,8 +86,7 @@
 								| replace:'<mermaid>',mermaid_span
 								| replace:'</mermaid>','</span><div class="diagram-display" style="height: 300px;"></div>'
 %}{%
-							assign first_char = line | strip
-								| slice: 0,1
+							assign first_char = line | strip | slice: 0,1
 %}{%
 							if first_char == '+'
 %}{%
@@ -104,7 +94,7 @@
 									| replace_first: '+','+ <!-- .element: class="fragment" -->'
 %}{%
 							endif
-							%}{{ processed_line }}{% comment %}Following line break is important{% endcomment %}
+							%}{{ processed_line }}{% comment %}Following newline is important{% endcomment %}
 {%
 						endfor
 %}
@@ -113,68 +103,36 @@
 				{% endfor %}
 
 			</div>
-
 		</div>
+
 		<script src="{{ site.reveal_path }}lib/js/head.min.js"></script>
 		<script src="{{ site.reveal_path }}js/reveal.js"></script>
 
 		<script>
-
-			// Full list of configuration options available here:
-			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				controls: true,
 				progress: true,
 				history: true,
 				center: true,
 
-				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: '{{ site.reveal_transition }}', // default/cube/page/concave/zoom/linear/fade/none
+				theme: Reveal.getQueryHash().theme,
+				transition: '{{ site.reveal_transition }}',
 
 				{% if site.reveal_options %}
 					{% if site.reveal_options.first.first %}
-						// Reveal options generated from mapping
 						{% for option in site.reveal_options %}
 							{{ option[0] }}: "{{ option[1] }}",
 						{% endfor %}
 					{% else %}
-						// Reveal options generated from a list of strings
 						{{ site.reveal_options | append:',' }}
 					{% endif %}
 				{% endif %}
 
-				// Optional libraries used to extend on reveal.js
 				dependencies: [
 					{ src: '{{ site.reveal_path }}lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: '{{ site.reveal_path }}plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: '{{ site.reveal_path }}plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: '{{ site.reveal_path }}plugin/highlight/highlight.js', async: true, callback: function() { 
-						hljs.initHighlightingOnLoad();
-						// Add copy buttons to code blocks
-						document.querySelectorAll('pre code').forEach((block) => {
-							const pre = block.parentElement;
-							const button = document.createElement('button');
-							button.className = 'copy-button';
-							button.textContent = 'Copy';
-							pre.style.position = 'relative';
-							pre.appendChild(button);
-
-							button.addEventListener('click', async () => {
-								try {
-									await navigator.clipboard.writeText(block.textContent);
-									button.textContent = 'Copied!';
-									button.classList.add('copied');
-									setTimeout(() => {
-										button.textContent = 'Copy';
-										button.classList.remove('copied');
-									}, 2000);
-								} catch (err) {
-									console.error('Failed to copy text: ', err);
-									button.textContent = 'Failed to copy';
-								}
-							});
-						});
-					}},
+					{ src: '{{ site.reveal_path }}plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: '{{ site.reveal_path }}plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
 					{% if site.mermaid_diagrams %}
 					{ src: 'https://cdn.jsdelivr.net/npm/mermaid@10.3.1/dist/mermaid.min.js'},
@@ -191,7 +149,33 @@
 					{% endif %}
 				]
 			});
+		</script>
 
+		<!-- Dark / light mode toggle script -->
+		<script>
+			(function () {
+				var btn = document.getElementById('theme-toggle');
+				var body = document.body;
+
+				function applyDark(isDark) {
+					body.classList.toggle('dark-mode', isDark);
+					document.documentElement.classList.toggle('pre-dark', isDark);
+				}
+
+				// Restore saved preference, suppressing transition flash
+				body.classList.add('no-transition');
+				var stored = localStorage.getItem('dark-mode');
+				var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				applyDark(stored !== null ? stored === 'true' : prefersDark);
+				body.offsetHeight; // force reflow before re-enabling transitions
+				body.classList.remove('no-transition');
+
+				btn.addEventListener('click', function () {
+					var isDark = !body.classList.contains('dark-mode');
+					applyDark(isDark);
+					localStorage.setItem('dark-mode', isDark);
+				});
+			})();
 		</script>
 
 	</body>

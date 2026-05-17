@@ -1,4 +1,6 @@
+---
+---
 # Dummy Presentation
-## A placeholder to test the multi-presentation setup
+## Testing the multi-presentation setup
 
 ##### [Samuel Farrens](https://sfarrens.github.io/)

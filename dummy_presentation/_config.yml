@@ -8,10 +8,10 @@ description: A dummy presentation to demonstrate the multi-presentation setup
 author: Samuel Farrens
 
 # The Reveal theme
-reveal_theme: night_plus.css
+reveal_theme: sfarrens.css
 
 # The Reveal transition
-reveal_transition: default
+reveal_transition: fade
 
 # Path to the used theme (defaults to the Reveal.js standard theme path)
 reveal_theme_path: assets/css/
@@ -19,8 +19,8 @@ reveal_theme_path: assets/css/
 # Additional custom CSS paths
 extra_css:
 
-# Custom CSS for highlighting (defaults to reveal.js/lib/css/zenburn.css)
-highlight_style_sheet:
+# Custom CSS for highlighting
+highlight_style_sheet: assets/css/highlight.css
 
 # Embed Server-side speaker notes?
 reveal_notes_server: false
@@ -30,8 +30,8 @@ reveal_options:
   width: 100%
   height: 100%
   slideNumber: false
-  transition: 'slide'
-  margin: 0.3
+  transition: 'fade'
+  margin: 0.18
 
 # Additional reveal.js dependencies
 reveal_dependencies:
@@ -43,6 +43,11 @@ reveal_path: reveal.js/
 # mermaid.js diagram integration
 mermaid_diagrams: true
 mermaid_theme: dark
+
+# Slides collection
+collections:
+  slides:
+    output: false
 
 # Exclude directories and/or files from the conversion
 exclude:

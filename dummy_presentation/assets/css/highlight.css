@@ -1,0 +1,125 @@
+/* ============================================================
+   highlight.css — syntax highlighting for sfarrens theme
+   Token colours are driven by CSS custom properties defined
+   in sfarrens.css, so light ↔ dark switching is automatic.
+   Light palette: GitHub-inspired (matches website light mode)
+   Dark palette:  One Dark (matches website dark mode)
+   ============================================================ */
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  color: var(--hl-base);
+  background: transparent;
+}
+
+/* Comments */
+.hljs-comment,
+.hljs-quote {
+  color: var(--hl-comment);
+  font-style: italic;
+}
+
+/* Keywords, control flow */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-addition {
+  color: var(--hl-keyword);
+  font-weight: bold;
+}
+
+/* Types */
+.hljs-type {
+  color: var(--hl-type);
+  font-weight: bold;
+}
+
+/* Strings */
+.hljs-string,
+.hljs-doctag,
+.hljs-template-variable,
+.hljs-deletion {
+  color: var(--hl-string);
+}
+
+/* Numbers, literals */
+.hljs-number,
+.hljs-literal {
+  color: var(--hl-number);
+}
+
+/* Regular expressions */
+.hljs-regexp {
+  color: var(--hl-regexp);
+}
+
+/* Function names */
+.hljs-title,
+.hljs-function .hljs-title {
+  color: var(--hl-function);
+  font-weight: bold;
+}
+
+/* Class names */
+.hljs-class .hljs-title,
+.hljs-class {
+  color: var(--hl-class);
+  font-weight: bold;
+}
+
+/* Variables */
+.hljs-variable,
+.hljs-template-tag,
+.hljs-link {
+  color: var(--hl-variable);
+}
+
+/* Attributes */
+.hljs-attr,
+.hljs-attribute {
+  color: var(--hl-attr);
+}
+
+/* Operators, punctuation */
+.hljs-symbol,
+.hljs-bullet,
+.hljs-subst {
+  color: var(--hl-operator);
+}
+
+/* Built-ins */
+.hljs-built_in {
+  color: var(--hl-builtin);
+}
+
+/* HTML/XML tags */
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: var(--hl-tag);
+}
+
+/* Parameters */
+.hljs-params {
+  color: var(--hl-variable);
+}
+
+/* Meta / preprocessor */
+.hljs-meta {
+  color: var(--hl-comment);
+}
+
+/* Section headings (e.g. Markdown) */
+.hljs-section {
+  color: var(--hl-function);
+  font-weight: bold;
+}
+
+/* Diff markers */
+.hljs-addition { background: transparent; }
+.hljs-deletion { background: transparent; }
+
+/* Formatting */
+.hljs-emphasis { font-style: italic; }
+.hljs-strong   { font-weight: bold; }
