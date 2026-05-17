@@ -377,36 +377,51 @@ body.dark-mode .reveal section img {
 }
 
 /* ── Copy-to-clipboard button ──────────────────────────────── */
-.reveal pre { position: relative; }
+
+/* Use overflow: visible so the button isn't clipped by border-radius */
+.reveal pre { position: relative; overflow: visible; }
+
+/* But we still need the code content clipped, so limit overflow on code */
+.reveal pre code { border-radius: 5px; }
 
 .code-copy-btn {
   position: absolute;
-  top: 0.4rem;
-  right: 0.4rem;
+  top: 0.45rem;
+  right: 0.5rem;
+  z-index: 10;
   width: 26px;
   height: 26px;
   padding: 0;
-  border: none;
-  border-radius: 4px;
-  background: transparent;
+  border: 1px solid var(--r-border);
+  border-radius: 5px;
+  background: var(--r-code-bg);
   color: var(--r-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.2s ease, background 0.15s ease, color 0.15s ease;
+  transition: opacity 0.2s ease, background 0.15s ease,
+              color 0.15s ease, border-color 0.15s ease;
 }
+
+.code-copy-btn svg { pointer-events: none; }
 
 .reveal pre:hover .code-copy-btn { opacity: 1; }
 
 .code-copy-btn:hover {
-  background: var(--r-inline-bg);
-  color: var(--r-accent);
+  background: var(--r-accent);
+  border-color: var(--r-accent);
+  color: #fff;
   opacity: 1;
 }
 
-.code-copy-btn.copied { color: #4caf50; opacity: 1; }
+.code-copy-btn.copied {
+  background: #4caf50;
+  border-color: #4caf50;
+  color: #fff;
+  opacity: 1;
+}
 
 /* ── Dark-mode toggle button ───────────────────────────────── */
 #theme-toggle {
