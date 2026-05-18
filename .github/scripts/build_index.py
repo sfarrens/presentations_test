@@ -17,6 +17,7 @@ in index.html and writes the result to _site/index.html.
 import html as html_lib
 import os
 import re
+import shutil
 import sys
 
 try:
@@ -126,6 +127,10 @@ def main():
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w') as fh:
         fh.write(page)
+
+    favicon_src = os.path.join(root, 'favicon.svg')
+    if os.path.isfile(favicon_src):
+        shutil.copy(favicon_src, os.path.join(root, '_site', 'favicon.svg'))
 
     slugs = ', '.join(p['slug'] for p in presentations)
     print(f'Generated {output_path} ({len(presentations)} presentation(s): {slugs})')
