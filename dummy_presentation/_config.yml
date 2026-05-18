@@ -30,11 +30,11 @@ reveal_notes_server: false
 
 # Additional reveal.js options
 reveal_options:
-  width: 100%
-  height: 100%
+  width: 1600
+  height: 900
   slideNumber: false
   transition: 'fade'
-  margin: 0
+  margin: 0.04
 
 # Additional reveal.js dependencies
 reveal_dependencies:

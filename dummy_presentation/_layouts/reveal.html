@@ -10,6 +10,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="icon" href="{{ 'assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
 
 		<!-- Restore saved theme before stylesheets paint to avoid a flash -->
 		<script>
@@ -181,18 +182,20 @@
 					</div>
 					{% endif %}
 					<div class="slide-body slide-body-graphic">
-						<div class="graphic-grid" style="grid-template-columns: repeat({{ g_cols }}, 1fr);">
-							{% for img_path in graphic_imgs %}
-							{% if forloop.index <= g_max %}
-							<div class="graphic-item">
-								<img src="{{ img_path | relative_url }}" alt="Figure {{ forloop.index }}">
+						<div class="graphic-content">
+							<div class="graphic-grid" style="grid-template-columns: repeat({{ g_cols }}, 1fr);">
+								{% for img_path in graphic_imgs %}
+								{% if forloop.index <= g_max %}
+								<div class="graphic-item">
+									<img src="{{ img_path | relative_url }}" alt="Figure {{ forloop.index }}">
+								</div>
+								{% endif %}
+								{% endfor %}
 							</div>
+							{% if slide.caption %}
+							<p class="graphic-caption">{{ slide.caption }}</p>
 							{% endif %}
-							{% endfor %}
 						</div>
-						{% if slide.caption %}
-						<p class="graphic-caption">{{ slide.caption }}</p>
-						{% endif %}
 					</div>
 				</section>
 
