@@ -9,12 +9,7 @@ extra_css:
 highlight_style_sheet: assets/css/highlight.css
 reveal_notes_server: false
 
-reveal_options:
-  width: 1600
-  height: 900
-  slideNumber: false
-  transition: 'fade'
-  margin: 0.04
+reveal_options: "width: 1600, height: 900, slideNumber: false, margin: 0.04"
 
 reveal_dependencies:
   - "{ src: 'reveal.js/plugin/math/math.js'},"
