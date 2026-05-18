@@ -75,14 +75,15 @@ def render_cards(presentations):
         desc  = html_lib.escape(p['description'])
         ptype = html_lib.escape(p['type'])
         slug  = p['slug']
+        tgt = 'target="_blank" rel="noopener noreferrer"'
         parts.append(
             f'      <div class="data-card" data-tag="{ptype}">\n'
             f'        <div class="data-card-body">\n'
             f'          <span class="data-card-lang">{ptype}</span>\n'
-            f'          <a href="{slug}/" class="data-card-title">{title}</a>\n'
+            f'          <a href="{slug}/" class="data-card-title" {tgt}>{title}</a>\n'
             f'          <p class="data-card-excerpt">{desc}</p>\n'
             f'          <div class="data-card-links">\n'
-            f'            <a href="{slug}/">View slides</a>\n'
+            f'            <a href="{slug}/" {tgt}>View slides</a>\n'
             f'          </div>\n'
             f'        </div>\n'
             f'      </div>'
