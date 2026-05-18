@@ -5,161 +5,237 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Samuel Farrens — Presentations</title>
   <style>
-    /* ── Reset & base ──────────────────────────────────────────── */
+    /* ── Reset ─────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ── Tokens (light) ────────────────────────────────────────── */
     :root {
-      --nav-bg:     #f5f3ef;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
       --body-bg:    #faf9f7;
-      --surface:    #ffffff;
+      --card-bg:    #ffffff;
+      --nav-bg:     #f5f3ef;
+      --nav-border: #e4e1db;
       --text:       #1a1a1a;
-      --muted:      #555555;
-      --border:     #e0ddd8;
+      --body-text:  #2c2825;
+      --muted:      #7a7068;
+      --link:       #c0584e;
+      --link-hover: #9e403a;
       --accent:     #c0584e;
-      --link:       #0366d6;
-      --shadow:     rgba(0, 0, 0, 0.08);
+      --hr:         #e8eaec;
+      --shadow:     0 4px 8px 0 rgba(0,0,0,0.20), 0 6px 20px 0 rgba(0,0,0,0.19);
+      --shadow-hover: 0 8px 20px 0 rgba(0,0,0,0.18), 0 10px 30px 0 rgba(0,0,0,0.15);
+      --nav-moon:   #b0a898;
+      --nav-sun:    #c0584e;
+      --track-bg:   #e4e1db;
     }
 
+    /* ── Tokens (dark) ─────────────────────────────────────────── */
     body.dark-mode {
-      --nav-bg:     #31353f;
       --body-bg:    #282c36;
-      --surface:    #31353f;
-      --text:       #abb2bf;
-      --muted:      #7a8393;
-      --border:     rgba(255, 255, 255, 0.08);
-      --accent:     #61afef;
-      --link:       #61afef;
-      --shadow:     rgba(0, 0, 0, 0.30);
+      --card-bg:    #31353f;
+      --nav-bg:     #1f222b;
+      --nav-border: rgba(255,255,255,0.07);
+      --text:       #ffffff;
+      --body-text:  #e8e4d8;
+      --muted:      #9a96a6;
+      --link:       #e0705a;
+      --link-hover: #e8856f;
+      --accent:     #e0705a;
+      --hr:         #3b3f4c;
+      --shadow:     0 4px 8px 0 rgba(0,0,0,0.50), 0 6px 20px 0 rgba(0,0,0,0.40);
+      --shadow-hover: 0 8px 20px 0 rgba(0,0,0,0.60), 0 10px 30px 0 rgba(0,0,0,0.50);
+      --nav-moon:   #e0705a;
+      --nav-sun:    #9a96a6;
+      --track-bg:   #3b3f4c;
     }
 
+    /* ── Base ──────────────────────────────────────────────────── */
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-family: var(--font-sans);
       background: var(--body-bg);
-      color: var(--text);
+      color: var(--body-text);
       min-height: 100vh;
+      font-size: 1.05rem;
+      font-weight: 400;
+      line-height: 1.6;
       transition: background 0.25s ease, color 0.25s ease;
     }
 
     a { color: var(--link); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    a:hover { color: var(--link-hover); }
 
     /* ── Nav ───────────────────────────────────────────────────── */
     nav {
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
       background: var(--nav-bg);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--nav-border);
+      font-family: var(--font-sans);
       transition: background 0.25s ease, border-color 0.25s ease;
+      padding: 0.75rem 0;
     }
 
     .topnav {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0.75rem 1.5rem;
+      flex-wrap: nowrap;
     }
 
     .site-name {
       font-weight: 700;
-      font-size: 1.3rem;
+      font-size: 1.6rem;
       color: var(--text);
       text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 0.6rem 1rem 0.6rem 0;
       transition: color 0.2s ease;
     }
-    .site-name:hover { color: var(--accent); text-decoration: none; }
+    .site-name:hover { color: var(--accent); }
 
     /* ── Theme toggle ──────────────────────────────────────────── */
     .theme-switch {
       display: inline-flex;
       align-items: center;
       cursor: pointer;
+      user-select: none;
     }
-    .theme-switch input { display: none; }
-
-    .ts-track {
+    .theme-switch-input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+    .theme-switch-track {
+      position: relative;
       width: 52px;
       height: 26px;
-      background: #c8c4bc;
+      background: var(--track-bg);
       border-radius: 13px;
-      position: relative;
-      transition: background 0.25s ease;
-    }
-    body.dark-mode .ts-track { background: #4d78cc; }
-
-    .ts-icons {
-      position: absolute;
-      inset: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 5px;
-      pointer-events: none;
+      padding: 0 6px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.12);
+      transition: background 0.3s ease;
     }
-    .ts-icons svg { width: 14px; height: 14px; }
-    .ts-sun  { color: #f5a623; }
-    .ts-moon { color: #c8c4bc; }
-    body.dark-mode .ts-moon { color: #ffffff; }
+    .theme-switch-sun,
+    .theme-switch-moon {
+      width: 12px;
+      height: 12px;
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+      transition: opacity 0.3s, color 0.3s;
+    }
+    .theme-switch-sun  { color: var(--nav-sun);  opacity: 1; }
+    .theme-switch-moon { color: var(--nav-moon); opacity: 0.5; }
+    body.dark-mode .theme-switch-sun  { opacity: 0.3; }
+    body.dark-mode .theme-switch-moon { opacity: 1;   }
 
-    .ts-thumb {
+    .theme-switch-thumb {
       position: absolute;
-      top: 3px;
       left: 3px;
+      top: 3px;
       width: 20px;
       height: 20px;
-      border-radius: 50%;
       background: #ffffff;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-      transition: transform 0.25s ease;
+      border-radius: 50%;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      transition: left 0.3s ease;
     }
-    body.dark-mode .ts-thumb { transform: translateX(26px); }
+    body.dark-mode .theme-switch-thumb { left: calc(100% - 23px); }
 
     /* ── Main content ──────────────────────────────────────────── */
     main {
-      max-width: 900px;
+      max-width: 800px;
       margin: 0 auto;
-      padding: 2.5rem 1.5rem;
+      padding: 2rem 2rem;
     }
 
-    .page-title {
-      font-size: 1.6rem;
-      font-weight: 700;
+    /* ── Page heading (matches website h1 style) ───────────────── */
+    .page-heading {
       color: var(--text);
-      display: inline-block;
-      padding-bottom: 0.4rem;
-      border-bottom: 2px solid var(--accent);
+      font-weight: 600;
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .page-heading::after {
+      content: "";
+      display: block;
+      width: 4rem;
+      border-bottom: 3px solid var(--accent);
+      margin-top: 0.3rem;
+    }
+
+    /* ── Filter bar ────────────────────────────────────────────── */
+    .pub-filter-bar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.75rem;
       margin-bottom: 0.5rem;
     }
 
-    .page-subtitle {
-      font-size: 0.9rem;
+    .pub-filter-label {
+      font-size: 0.85rem;
       color: var(--muted);
-      margin-bottom: 2rem;
+      font-weight: 500;
     }
 
-    /* ── Cards ─────────────────────────────────────────────────── */
-    .cards-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    .pub-filter-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.3rem 0.85rem;
+      border-radius: 2rem;
+      border: 1.5px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+    }
+    .pub-filter-btn:hover {
+      background: rgba(192, 88, 78, 0.08);
+    }
+    .pub-filter-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+    }
+    body.dark-mode .pub-filter-btn:hover {
+      background: rgba(224, 112, 90, 0.12);
+    }
+
+    /* ── Cards grid ────────────────────────────────────────────── */
+    .data-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+      margin: 1.5rem 0;
     }
 
     .data-card {
-      background: var(--surface);
+      box-shadow: var(--shadow);
       border-radius: 0.5rem;
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 8px var(--shadow);
       overflow: hidden;
+      background: var(--card-bg);
       display: flex;
       flex-direction: row;
-      transition: transform 0.15s ease, box-shadow 0.15s ease,
-                  background 0.25s ease, border-color 0.25s ease;
+      transition: box-shadow 0.2s ease, transform 0.2s ease,
+                  background 0.25s ease;
     }
     .data-card:hover {
+      box-shadow: var(--shadow-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 18px var(--shadow);
     }
 
     .data-card-body {
@@ -167,144 +243,147 @@
       display: flex;
       flex-direction: column;
       flex: 1;
-      gap: 0.4rem;
     }
 
-    .data-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
+    .data-card-lang {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 0.15rem 0.5rem;
+      border-radius: 1rem;
+      background: var(--accent);
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
     }
 
     .data-card-title {
       font-weight: 600;
       font-size: 0.95rem;
       color: var(--text);
-      flex: 1;
-    }
-    .data-card-title a {
-      color: inherit;
       text-decoration: none;
+      line-height: 1.4;
+      display: block;
+      margin-bottom: 0.4rem;
+      transition: color 0.2s ease;
     }
-    .data-card-title a:hover { color: var(--accent); }
-
-    .data-card-lang {
-      flex-shrink: 0;
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: #ffffff;
-      background: var(--accent);
-      border-radius: 999px;
-      padding: 0.15em 0.6em;
-      letter-spacing: 0.03em;
-      white-space: nowrap;
-    }
+    .data-card-title:hover { color: var(--link); }
 
     .data-card-excerpt {
       font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.5;
+      color: var(--body-text);
+      line-height: 1.4;
+      margin: 0 0 0.75rem;
+      flex: 1;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+    body.dark-mode .data-card-excerpt {
+      color: #c4bfb6; /* mix(dm-text, dm-muted, 60%) */
+    }
 
     .data-card-links {
       display: flex;
-      flex-direction: row;
+      align-items: center;
       gap: 0.5rem;
-      padding-top: 0.6rem;
       margin-top: auto;
-      border-top: 1px solid var(--border);
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--hr);
       transition: border-color 0.25s ease;
     }
 
     .data-card-links a {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--link);
       text-decoration: none;
-      padding: 0.2em 0.5em;
-      border-radius: 0.25rem;
-      transition: background 0.15s ease;
+      transition: color 0.15s ease;
     }
-    .data-card-links a:hover {
-      background: rgba(192, 88, 78, 0.1);
-      text-decoration: none;
-    }
-    body.dark-mode .data-card-links a:hover {
-      background: rgba(97, 175, 239, 0.1);
-    }
+    .data-card-links a:hover { color: var(--link-hover); }
   </style>
 </head>
 <body>
 
+  <!-- Navigation -->
   <nav>
     <div class="topnav">
       <a class="site-name" href="https://sfarrens.github.io">Samuel Farrens</a>
       <label class="theme-switch" title="Toggle dark / light mode">
-        <input type="checkbox" id="theme-toggle" />
-        <div class="ts-track">
-          <div class="ts-icons">
-            <svg class="ts-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="5"/>
-              <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-              <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
-            <svg class="ts-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
-          </div>
-          <span class="ts-thumb"></span>
+        <input class="theme-switch-input" type="checkbox" id="theme-toggle" />
+        <div class="theme-switch-track">
+          <!-- Sun -->
+          <svg class="theme-switch-sun" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1"     x2="12" y2="3"/>
+            <line x1="12" y1="21"    x2="12" y2="23"/>
+            <line x1="4.22"  y1="4.22"  x2="5.64"  y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1"     y1="12"    x2="3"     y2="12"/>
+            <line x1="21"    y1="12"    x2="23"    y2="12"/>
+            <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
+            <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
+          </svg>
+          <!-- Moon -->
+          <svg class="theme-switch-moon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <span class="theme-switch-thumb"></span>
         </div>
       </label>
     </div>
   </nav>
 
+  <!-- Content -->
   <main>
-    <h1 class="page-title">Presentations</h1>
-    <p class="page-subtitle">Slide decks and talks by Samuel Farrens.</p>
+    <h1 class="page-heading">Presentations</h1>
 
-    <div class="cards-grid">
+    <!-- Filter bar -->
+    <div class="pub-filter-bar" id="filter-bar">
+      <span class="pub-filter-label">Filter:</span>
+      <button class="pub-filter-btn" data-filter-tag="Talk">Talk</button>
+      <button class="pub-filter-btn" data-filter-tag="Demo">Demo</button>
+    </div>
 
-      <div class="data-card">
+    <!-- Cards -->
+    <div class="data-cards-grid" id="cards-grid">
+
+      <div class="data-card" data-tag="Talk">
         <div class="data-card-body">
-          <div class="data-card-header">
-            <div class="data-card-title">
-              <a href="scientific_software_development/">Scientific Software Development</a>
-            </div>
-            <span class="data-card-lang">Talk</span>
-          </div>
+          <span class="data-card-lang">Talk</span>
+          <a href="scientific_software_development/" class="data-card-title">
+            Scientific Software Development
+          </a>
           <p class="data-card-excerpt">
             An introduction to best practices in scientific software development,
             covering version control, testing, documentation, and reproducibility
             for research software.
           </p>
           <div class="data-card-links">
-            <a href="scientific_software_development/">View slides →</a>
+            <a href="scientific_software_development/">View slides</a>
           </div>
         </div>
       </div>
 
-      <div class="data-card">
+      <div class="data-card" data-tag="Demo">
         <div class="data-card-body">
-          <div class="data-card-header">
-            <div class="data-card-title">
-              <a href="dummy_presentation/">Dummy Presentation</a>
-            </div>
-            <span class="data-card-lang">Demo</span>
-          </div>
+          <span class="data-card-lang">Demo</span>
+          <a href="dummy_presentation/" class="data-card-title">
+            Dummy Presentation
+          </a>
           <p class="data-card-excerpt">
             A demo presentation used for testing layout, theming, code blocks,
             and interactive slide features.
           </p>
           <div class="data-card-links">
-            <a href="dummy_presentation/">View slides →</a>
+            <a href="dummy_presentation/">View slides</a>
           </div>
         </div>
       </div>
@@ -313,25 +392,49 @@
   </main>
 
   <script>
+    // ── Theme toggle ────────────────────────────────────────────
     (function () {
       var toggle = document.getElementById('theme-toggle');
-
       function applyDark(on) {
         document.body.classList.toggle('dark-mode', on);
         toggle.checked = on;
       }
-
       var stored = localStorage.getItem('dark-mode');
       if (stored !== null) {
         applyDark(stored === 'true');
       } else {
         applyDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
       }
-
       toggle.addEventListener('change', function () {
-        var on = toggle.checked;
-        applyDark(on);
-        localStorage.setItem('dark-mode', String(on));
+        applyDark(toggle.checked);
+        localStorage.setItem('dark-mode', String(toggle.checked));
+      });
+    })();
+
+    // ── Filter ──────────────────────────────────────────────────
+    (function () {
+      var bar  = document.getElementById('filter-bar');
+      var grid = document.getElementById('cards-grid');
+      if (!bar || !grid) return;
+      var active = null;
+      bar.addEventListener('click', function (e) {
+        var btn = e.target.closest('.pub-filter-btn');
+        if (!btn) return;
+        var tag = btn.getAttribute('data-filter-tag');
+        if (active === tag) {
+          active = null;
+          btn.classList.remove('active');
+        } else {
+          bar.querySelectorAll('.pub-filter-btn').forEach(function (b) {
+            b.classList.remove('active');
+          });
+          btn.classList.add('active');
+          active = tag;
+        }
+        grid.querySelectorAll('.data-card').forEach(function (card) {
+          card.style.display =
+            (!active || card.getAttribute('data-tag') === active) ? '' : 'none';
+        });
       });
     })();
   </script>
