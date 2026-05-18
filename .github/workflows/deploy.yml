@@ -42,14 +42,31 @@ jobs:
 
           for dir in */; do
             name="${dir%/}"
-            if [ -f "${name}/_config.yml" ]; then
-              echo "Building presentation: ${name}"
+            if [ ! -f "${name}/_config.yml" ]; then
+              continue
+            fi
+            echo "Building presentation: ${name}"
+            if [ -d "${name}/_layouts" ]; then
+              # Presentation has its own theme — build as-is
               cp -r reveal.js "${name}/reveal.js"
               bundle exec jekyll build \
                 --source "${name}" \
                 --destination "_site/${name}" \
                 --baseurl "/${REPO_SLUG}/${name}"
               rm -rf "${name}/reveal.js"
+            else
+              # Use shared theme — assemble into a temp directory and build
+              BUILD_DIR=$(mktemp -d)
+              cp -r _theme/. "${BUILD_DIR}/"
+              cp -r reveal.js "${BUILD_DIR}/reveal.js"
+              [ -d "${name}/_slides" ]   && cp -r "${name}/_slides"   "${BUILD_DIR}/"
+              [ -d "${name}/graphics" ]  && cp -r "${name}/graphics"  "${BUILD_DIR}/"
+              bundle exec jekyll build \
+                --source "${BUILD_DIR}" \
+                --destination "_site/${name}" \
+                --baseurl "/${REPO_SLUG}/${name}" \
+                --config "_base_config.yml,${name}/_config.yml"
+              rm -rf "${BUILD_DIR}"
             fi
           done
 

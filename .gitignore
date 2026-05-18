@@ -5,5 +5,9 @@ _site/
 .bundle/config
 Gemfile.lock
 
-# reveal.js (cloned at build time by the CI workflow)
+# reveal.js (cloned at build time by CI, or on first serve.sh run locally)
+reveal.js/
 */reveal.js/
+
+# Local dev assembly directories
+.build/

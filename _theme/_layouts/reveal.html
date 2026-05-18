@@ -107,7 +107,7 @@
 					{%- assign _pfx = _s | slice: 0, 2 -%}
 					{%- if _pfx == '+ ' -%}
 						{%- unless _in_flist -%}<ul>{{ _nl }}{%- assign _in_flist = true -%}{%- endunless -%}
-<li class="fragment">{{ _s | slice: 2, 999 }}</li>{{ _nl }}
+<li class="fragment">{{ _s | slice: 2, 999 | markdownify | remove: '<p>' | remove: '</p>' | strip_newlines }}</li>{{ _nl }}
 					{%- else -%}
 						{%- if _in_flist -%}</ul>{{ _nl }}{%- assign _in_flist = false -%}{%- endif -%}
 {{ _line }}{{ _nl }}
@@ -127,7 +127,7 @@
 						<div class="split-content">{{ _slide_content | markdownify }}</div>
 						<div class="split-graphic">
 							{% if slide.graphic %}
-							<img src="{{ slide.graphic | relative_url }}" alt="">
+							{% if slide.graphic contains '://' %}<img src="{{ slide.graphic }}" alt="">{% else %}<img src="{{ slide.graphic | relative_url }}" alt="">{% endif %}
 							{% endif %}
 						</div>
 					</div>
@@ -135,7 +135,7 @@
 					<div class="slide-body slide-body-split">
 						<div class="split-graphic">
 							{% if slide.graphic %}
-							<img src="{{ slide.graphic | relative_url }}" alt="">
+							{% if slide.graphic contains '://' %}<img src="{{ slide.graphic }}" alt="">{% else %}<img src="{{ slide.graphic | relative_url }}" alt="">{% endif %}
 							{% endif %}
 						</div>
 						<div class="split-content">{{ _slide_content | markdownify }}</div>
@@ -143,7 +143,7 @@
 					{% else %}
 					<div class="slide-body slide-body-full{% if slide.graphic %} has-bg-graphic{% endif %}">
 						{% if slide.graphic %}
-						<div class="bg-graphic" style="background-image: url('{{ slide.graphic | relative_url }}')"></div>
+						<div class="bg-graphic" style="background-image: url('{% if slide.graphic contains "://" %}{{ slide.graphic }}{% else %}{{ slide.graphic | relative_url }}{% endif %}')"></div>
 						{% endif %}
 						<div class="slide-body-inner">{{ _slide_content | markdownify }}</div>
 					</div>
@@ -187,7 +187,7 @@
 								{% for img_path in graphic_imgs %}
 								{% if forloop.index <= g_max %}
 								<div class="graphic-item">
-									<img src="{{ img_path | relative_url }}" alt="Figure {{ forloop.index }}">
+									{% if img_path contains '://' %}<img src="{{ img_path }}" alt="Figure {{ forloop.index }}">{% else %}<img src="{{ img_path | relative_url }}" alt="Figure {{ forloop.index }}">{% endif %}
 								</div>
 								{% endif %}
 								{% endfor %}

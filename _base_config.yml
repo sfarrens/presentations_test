@@ -1,0 +1,41 @@
+# Shared theme configuration — inherited by all default-theme presentations.
+# Presentation-specific fields (title, description, type, author) belong in
+# each presentation's own _config.yml.
+
+reveal_theme: sfarrens.css
+reveal_transition: fade
+reveal_theme_path: assets/css/
+extra_css:
+highlight_style_sheet: assets/css/highlight.css
+reveal_notes_server: false
+
+reveal_options:
+  width: 1600
+  height: 900
+  slideNumber: false
+  transition: 'fade'
+  margin: 0.04
+
+reveal_dependencies:
+  - "{ src: 'reveal.js/plugin/math/math.js'},"
+
+reveal_path: reveal.js/
+
+mermaid_diagrams: true
+mermaid_theme: dark
+
+collections:
+  slides:
+    output: false
+
+exclude:
+  - Gemfile*
+  - LICENSE
+  - README.md
+
+markdown: kramdown
+highlighter: rouge
+
+kramdown:
+  parse_block_html: true
+markdown_ext: ignoreme
