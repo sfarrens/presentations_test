@@ -248,14 +248,42 @@ body.dark-mode .reveal pre {
 
 .reveal pre code {
   display: block;
-  padding: 0.9em 1.1em;
+  padding: 1.2em 1.1em;
   overflow: auto;
   max-height: 430px;
   font-family: var(--r-font-mono);
+  font-size: inherit;
   color: var(--r-code-text);
   background: transparent;
   word-wrap: normal;
   tab-size: 2;
+  border-radius: 0;
+}
+
+.reveal pre.has-lang-label { padding-top: 2.2em; }
+
+.reveal .code-lang-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0.25em 0.75em;
+  font-family: var(--r-font-sans);
+  font-size: 0.75em;
+  font-weight: 600;
+  color: var(--r-muted);
+  letter-spacing: 0.04em;
+  background: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid var(--r-border);
+  border-radius: 6px 6px 0 0;
+  line-height: 1.6;
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+body.dark-mode .reveal .code-lang-label {
+  background: rgba(255, 255, 255, 0.03);
 }
 
 /* ── Inline code ───────────────────────────────────────────── */
@@ -271,7 +299,7 @@ body.dark-mode .reveal pre {
 .reveal pre code {
   color: var(--r-code-text);
   background: transparent;
-  padding: 0;
+  padding: 1.2em 1.1em;
   border-radius: 0;
   font-size: inherit;
 }
@@ -460,3 +488,298 @@ body.dark-mode .reveal section img {
 
 /* Sun shown in dark mode → click to go light */
 body.dark-mode #theme-toggle::before { content: "☀"; }
+
+/* ── Nav-bar palette tokens ────────────────────────────────── */
+body {
+  --r-nav-bg:    #f5f3ef;
+  --r-nav-title: #1a1a1a;
+}
+
+body.dark-mode {
+  --r-nav-bg:    #1f222b;
+  --r-nav-title: #ffffff;
+}
+
+/* ── Header height token ────────────────────────────────────── */
+:root { --slide-header-h: 1.9em; }
+
+/* ════════════════════════════════════════════════════════════
+   All custom layouts: fill the viewport, kill reveal centering
+   ════════════════════════════════════════════════════════════ */
+.reveal .slides > section.layout-title {
+  padding: 1.5em !important;
+  height: 100% !important;
+  top: 0 !important;
+  left: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.reveal .slides > section.layout-slide,
+.reveal .slides > section.layout-graphic {
+  padding: 0 !important;
+  height: 100% !important;
+  top: 0 !important;
+  left: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+/* ════════════════════════════════════════════════════════════
+   layout: title
+   ════════════════════════════════════════════════════════════ */
+.reveal .title-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1em;
+  width: 100%;
+}
+
+.reveal section.layout-title h1 {
+  font-size: 2.2em;
+  font-weight: 700;
+  border-bottom: 3px solid var(--r-accent);
+  padding-bottom: 0.18em;
+  margin-bottom: 0.2em;
+  color: var(--r-heading);
+}
+
+.reveal .title-subtitle {
+  font-size: 1.1em;
+  font-weight: 400;
+  color: var(--r-muted);
+  margin: 0 0 0.4em;
+}
+
+.reveal .title-author {
+  font-size: 0.82em;
+  font-weight: 500;
+  margin: 0.3em 0 0.65em;
+}
+
+.reveal .title-author-link {
+  color: var(--r-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.reveal .title-author-link:hover {
+  color: var(--r-accent-dim);
+  border-bottom-color: var(--r-accent-dim);
+}
+
+.reveal .title-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6em;
+  margin: 0.65em 0;
+  flex-wrap: wrap;
+}
+
+.reveal .org-logo {
+  height: 1.7em;
+  width: auto;
+  object-fit: contain;
+}
+
+.reveal section.layout-title .org-logo {
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  max-height: none;
+}
+
+.cosmostat-dark  { display: none; }
+body.dark-mode .cosmostat-light { display: none; }
+body.dark-mode .cosmostat-dark  { display: block; }
+
+.reveal .title-footer {
+  position: absolute;
+  bottom: 1.3em;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.6em;
+  color: var(--r-muted);
+  opacity: 0.75;
+  letter-spacing: 0.03em;
+  transition: color 0.25s ease;
+}
+
+/* ════════════════════════════════════════════════════════════
+   layout: slide  /  layout: graphic — header bar
+   ════════════════════════════════════════════════════════════ */
+.reveal .slide-header {
+  flex: 0 0 auto;
+  height: var(--slide-header-h);
+  padding: 0 3.5em 0 1.5em; /* right pad clears theme-toggle */
+  display: flex;
+  align-items: center;
+  background: var(--r-nav-bg);
+  border-bottom: 1px solid var(--r-border);
+  box-sizing: border-box;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.reveal .slide-header-title {
+  font-size: 1.25em;
+  font-weight: 600;
+  color: var(--r-nav-title);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.25s ease;
+}
+
+/* ── Slide body ──────────────────────────────────────────────── */
+.reveal .slide-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 2em 6.5em; /* 2.5em × 22.8px ≈ 57px, matching header's 1.5em × 38px */
+  overflow-y: auto;
+  box-sizing: border-box;
+  font-size: 0.7em;
+}
+
+/* Full-width layout */
+.reveal .slide-body.slide-body-full {
+  position: relative;
+}
+
+.reveal .slide-body.slide-body-full .bg-graphic {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.reveal .slide-body.slide-body-full .slide-body-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* h1 in slide body: text-width underline, larger than h2+ but smaller than header title */
+.reveal .slide-body h1 {
+  font-size: 2em;
+  font-weight: 600;
+  width: fit-content;
+  border-bottom: 2px solid var(--r-accent);
+  padding-bottom: 0.1em;
+  margin-bottom: 0.4em;
+}
+
+/* h2 and below: no border, progressively smaller */
+.reveal .slide-body h2 {
+  font-size: 1.5em;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.reveal .slide-body h3 {
+  font-size: 1.2em;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.reveal .slide-body h4,
+.reveal .slide-body h5,
+.reveal .slide-body h6 {
+  font-size: 0.95em;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Split layout */
+.reveal .slide-body.slide-body-split {
+  display: flex;
+  flex-direction: row;
+  gap: 0.9em;
+  overflow: hidden;
+}
+
+.reveal .split-content {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+.reveal .split-graphic {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.reveal section.layout-slide .split-graphic img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border: none;
+  box-shadow: none;
+  border-radius: 6px;
+}
+
+/* ════════════════════════════════════════════════════════════
+   layout: graphic
+   ════════════════════════════════════════════════════════════ */
+.reveal .slide-body.slide-body-graphic {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 2em; /* reserve space for absolutely-positioned caption */
+}
+
+.reveal .graphic-grid {
+  height: 100%;
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 0.6em;
+  align-items: center;
+  align-content: center;
+}
+
+.reveal .graphic-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.reveal section.layout-graphic .graphic-item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .reveal section.layout-graphic .graphic-item img {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.reveal .graphic-caption {
+  flex-shrink: 0;
+  font-size: 0.8em;
+  color: var(--r-muted);
+  text-align: center;
+  font-style: italic;
+  margin: 0;
+  padding: 0.15em 0 0.25em;
+  transition: color 0.25s ease;
+  bottom: 1em;
+}

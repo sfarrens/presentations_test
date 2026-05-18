@@ -123,3 +123,50 @@
 /* Formatting */
 .hljs-emphasis { font-style: italic; }
 .hljs-strong   { font-weight: bold; }
+
+/* ── Rouge token classes (used by markdownify / kramdown) ───── */
+/* Comments */
+.highlight .c,  .highlight .c1, .highlight .cm,
+.highlight .cs, .highlight .cp, .highlight .cd { color: var(--hl-comment); font-style: italic; }
+
+/* Keywords */
+.highlight .k,  .highlight .kd, .highlight .kn,
+.highlight .kp, .highlight .kr, .highlight .kv,
+.highlight .kc { color: var(--hl-keyword); font-weight: bold; }
+
+/* Type keywords */
+.highlight .kt { color: var(--hl-type); font-weight: bold; }
+
+/* Strings */
+.highlight .s,  .highlight .s1, .highlight .s2,
+.highlight .sb, .highlight .sc, .highlight .sd,
+.highlight .se, .highlight .sh, .highlight .si,
+.highlight .sx { color: var(--hl-string); }
+.highlight .sr  { color: var(--hl-regexp); }
+
+/* Numbers */
+.highlight .m,  .highlight .mb, .highlight .mf,
+.highlight .mh, .highlight .mi, .highlight .mo,
+.highlight .mx, .highlight .il { color: var(--hl-number); }
+
+/* Names */
+.highlight .nf, .highlight .fm { color: var(--hl-function); font-weight: bold; }
+.highlight .nc  { color: var(--hl-class);    font-weight: bold; }
+.highlight .nd  { color: var(--hl-class);    font-weight: bold; }
+.highlight .nb, .highlight .bp { color: var(--hl-builtin); }
+.highlight .nn  { color: var(--hl-base); }
+.highlight .nt  { color: var(--hl-tag); }
+.highlight .na, .highlight .no,
+.highlight .vc, .highlight .vg,
+.highlight .vi, .highlight .nv { color: var(--hl-variable); }
+
+/* Operators */
+.highlight .o,  .highlight .ow { color: var(--hl-operator); }
+
+/* Punctuation / generic */
+.highlight .p   { color: var(--hl-base); }
+.highlight .n   { color: var(--hl-base); }
+.highlight .err { color: #f44747; background: transparent; }
+.highlight .gd  { color: #f44747; background: transparent; }
+.highlight .gi  { color: var(--hl-string); background: transparent; }
+.highlight .gp  { color: var(--hl-comment); }

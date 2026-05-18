@@ -1,6 +1,9 @@
 ---
+layout: slide
+title: "Code example"
+align: left
+graphic: assets/img/cosmostat_light.png
 ---
-## Code example
 
 ```python
 import numpy as np
@@ -14,4 +17,4 @@ x = np.linspace(-4, 4, 500)
 y = gaussian(x, mu=0.5, sigma=0.8)
 ```
 
-Toggle **☾ / ☀** in the top-right corner to switch themes.
+Use `align: left` or `align: right` in front matter to split the slide, and `graphic:` to set the image on the other half.

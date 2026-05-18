@@ -2,21 +2,339 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Samuel Farrens — Presentations</title>
   <style>
-    body { font-family: sans-serif; margin: 4em auto; max-width: 700px; }
-    h1 { border-bottom: 2px solid #444; padding-bottom: 0.3em; }
-    ul { list-style: none; padding-left: 0; }
-    li { margin: 1em 0; }
-    a { text-decoration: none; color: #0366d6; font-weight: bold; }
+    /* ── Reset & base ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --nav-bg:     #f5f3ef;
+      --body-bg:    #faf9f7;
+      --surface:    #ffffff;
+      --text:       #1a1a1a;
+      --muted:      #555555;
+      --border:     #e0ddd8;
+      --accent:     #c0584e;
+      --link:       #0366d6;
+      --shadow:     rgba(0, 0, 0, 0.08);
+    }
+
+    body.dark-mode {
+      --nav-bg:     #31353f;
+      --body-bg:    #282c36;
+      --surface:    #31353f;
+      --text:       #abb2bf;
+      --muted:      #7a8393;
+      --border:     rgba(255, 255, 255, 0.08);
+      --accent:     #61afef;
+      --link:       #61afef;
+      --shadow:     rgba(0, 0, 0, 0.30);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--body-bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    a { color: var(--link); text-decoration: none; }
     a:hover { text-decoration: underline; }
+
+    /* ── Nav ───────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.25s ease, border-color 0.25s ease;
+    }
+
+    .topnav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
+    }
+
+    .site-name {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .site-name:hover { color: var(--accent); text-decoration: none; }
+
+    /* ── Theme toggle ──────────────────────────────────────────── */
+    .theme-switch {
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .theme-switch input { display: none; }
+
+    .ts-track {
+      width: 52px;
+      height: 26px;
+      background: #c8c4bc;
+      border-radius: 13px;
+      position: relative;
+      transition: background 0.25s ease;
+    }
+    body.dark-mode .ts-track { background: #4d78cc; }
+
+    .ts-icons {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5px;
+      pointer-events: none;
+    }
+    .ts-icons svg { width: 14px; height: 14px; }
+    .ts-sun  { color: #f5a623; }
+    .ts-moon { color: #c8c4bc; }
+    body.dark-mode .ts-moon { color: #ffffff; }
+
+    .ts-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      transition: transform 0.25s ease;
+    }
+    body.dark-mode .ts-thumb { transform: translateX(26px); }
+
+    /* ── Main content ──────────────────────────────────────────── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .page-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+      display: inline-block;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .page-subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    /* ── Cards ─────────────────────────────────────────────────── */
+    .cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .data-card {
+      background: var(--surface);
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      transition: transform 0.15s ease, box-shadow 0.15s ease,
+                  background 0.25s ease, border-color 0.25s ease;
+    }
+    .data-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px var(--shadow);
+    }
+
+    .data-card-body {
+      padding: 1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 0.4rem;
+    }
+
+    .data-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .data-card-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text);
+      flex: 1;
+    }
+    .data-card-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .data-card-title a:hover { color: var(--accent); }
+
+    .data-card-lang {
+      flex-shrink: 0;
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: var(--accent);
+      border-radius: 999px;
+      padding: 0.15em 0.6em;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .data-card-excerpt {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .data-card-links {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      padding-top: 0.6rem;
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+      transition: border-color 0.25s ease;
+    }
+
+    .data-card-links a {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 0.2em 0.5em;
+      border-radius: 0.25rem;
+      transition: background 0.15s ease;
+    }
+    .data-card-links a:hover {
+      background: rgba(192, 88, 78, 0.1);
+      text-decoration: none;
+    }
+    body.dark-mode .data-card-links a:hover {
+      background: rgba(97, 175, 239, 0.1);
+    }
   </style>
 </head>
 <body>
-  <h1>Samuel Farrens — Presentations</h1>
-  <ul>
-    <li><a href="scientific_software_development/">Scientific Software Development</a></li>
-    <li><a href="dummy_presentation/">Dummy Presentation</a></li>
-  </ul>
+
+  <nav>
+    <div class="topnav">
+      <a class="site-name" href="https://sfarrens.github.io">Samuel Farrens</a>
+      <label class="theme-switch" title="Toggle dark / light mode">
+        <input type="checkbox" id="theme-toggle" />
+        <div class="ts-track">
+          <div class="ts-icons">
+            <svg class="ts-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <svg class="ts-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </div>
+          <span class="ts-thumb"></span>
+        </div>
+      </label>
+    </div>
+  </nav>
+
+  <main>
+    <h1 class="page-title">Presentations</h1>
+    <p class="page-subtitle">Slide decks and talks by Samuel Farrens.</p>
+
+    <div class="cards-grid">
+
+      <div class="data-card">
+        <div class="data-card-body">
+          <div class="data-card-header">
+            <div class="data-card-title">
+              <a href="scientific_software_development/">Scientific Software Development</a>
+            </div>
+            <span class="data-card-lang">Talk</span>
+          </div>
+          <p class="data-card-excerpt">
+            An introduction to best practices in scientific software development,
+            covering version control, testing, documentation, and reproducibility
+            for research software.
+          </p>
+          <div class="data-card-links">
+            <a href="scientific_software_development/">View slides →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="data-card">
+        <div class="data-card-body">
+          <div class="data-card-header">
+            <div class="data-card-title">
+              <a href="dummy_presentation/">Dummy Presentation</a>
+            </div>
+            <span class="data-card-lang">Demo</span>
+          </div>
+          <p class="data-card-excerpt">
+            A demo presentation used for testing layout, theming, code blocks,
+            and interactive slide features.
+          </p>
+          <div class="data-card-links">
+            <a href="dummy_presentation/">View slides →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var toggle = document.getElementById('theme-toggle');
+
+      function applyDark(on) {
+        document.body.classList.toggle('dark-mode', on);
+        toggle.checked = on;
+      }
+
+      var stored = localStorage.getItem('dark-mode');
+      if (stored !== null) {
+        applyDark(stored === 'true');
+      } else {
+        applyDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
+      }
+
+      toggle.addEventListener('change', function () {
+        var on = toggle.checked;
+        applyDark(on);
+        localStorage.setItem('dark-mode', String(on));
+      });
+    })();
+  </script>
+
 </body>
 </html>

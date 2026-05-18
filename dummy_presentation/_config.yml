@@ -31,7 +31,7 @@ reveal_options:
   height: 100%
   slideNumber: false
   transition: 'fade'
-  margin: 0.18
+  margin: 0
 
 # Additional reveal.js dependencies
 reveal_dependencies:
