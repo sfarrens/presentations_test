@@ -241,6 +241,15 @@
 			</div>
 		</div>
 
+		<!-- Mark Rouge-highlighted code blocks so the highlight plugin skips HTML-escaping them.
+		     reveal.js/plugin/highlight/highlight.js is gitignored and cloned fresh in CI,
+		     so we rely on data-noescape rather than a local patch to the plugin file. -->
+		<script>
+			document.querySelectorAll('.highlighter-rouge pre code').forEach(function(el) {
+				el.setAttribute('data-noescape', '');
+			});
+		</script>
+
 		<script src="{{ site.reveal_path }}lib/js/head.min.js"></script>
 		<script src="{{ site.reveal_path }}js/reveal.js"></script>
 

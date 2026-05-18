@@ -35,6 +35,8 @@ jobs:
           mkdir -p _site
           cp index.html _site/
 
+          REPO_SLUG="${GITHUB_REPOSITORY#*/}"
+
           for dir in */; do
             name="${dir%/}"
             if [ -f "${name}/_config.yml" ]; then
@@ -43,7 +45,7 @@ jobs:
               bundle exec jekyll build \
                 --source "${name}" \
                 --destination "_site/${name}" \
-                --baseurl "/presentations/${name}"
+                --baseurl "/${REPO_SLUG}/${name}"
               rm -rf "${name}/reveal.js"
             fi
           done
