@@ -347,6 +347,10 @@
 					{% endif %}
 				]
 			});
+
+			Reveal.addEventListener('ready', function() {
+				document.querySelector('.reveal .slides').style.opacity = '1';
+			});
 		</script>
 
 		<!-- Dark / light mode toggle script -->

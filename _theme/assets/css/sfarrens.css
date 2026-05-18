@@ -503,6 +503,9 @@ body.dark-mode {
 /* ── Header height token ────────────────────────────────────── */
 :root { --slide-header-h: 1.9em; }
 
+/* ── Prevent flash of unstyled content on load ────────────── */
+.reveal .slides { opacity: 0; transition: opacity 0.3s ease; }
+
 /* ════════════════════════════════════════════════════════════
    All custom layouts: fill the viewport, kill reveal centering
    ════════════════════════════════════════════════════════════ */
