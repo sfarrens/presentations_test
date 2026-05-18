@@ -4,6 +4,9 @@ title: Dummy Presentation
 # Your presentation description (optional)
 description: A dummy presentation to demonstrate the multi-presentation setup
 
+# Presentation type shown as a badge on the landing page (e.g. Talk, Demo, Workshop)
+type: Demo
+
 # Your name (optional)
 author: Samuel Farrens
 

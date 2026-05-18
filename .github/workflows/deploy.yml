@@ -32,10 +32,13 @@ jobs:
 
       - name: Build presentations
         run: |
+          pip3 install pyyaml --quiet
           mkdir -p _site
-          cp index.html _site/
 
           REPO_SLUG="${GITHUB_REPOSITORY#*/}"
+
+          # Generate the landing page from each presentation's _config.yml
+          python3 .github/scripts/build_index.py
 
           for dir in */; do
             name="${dir%/}"

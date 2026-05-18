@@ -1,11 +1,14 @@
 # Your presentation title
-title: Jekyll and Reveal.js
+title: Scientific Software Development
 
 # Your presentation description (optional)
-description: A framework for easily creating beautiful presentations using HTML
+description: An introduction to best practices in scientific software development, covering version control, testing, documentation, and reproducibility.
+
+# Presentation type shown as a badge on the landing page (e.g. Talk, Demo, Workshop)
+type: Talk
 
 # Your name (optional)
-author: jekyll-revealjs contributors
+author: Samuel Farrens
 
 # The Reveal theme
 # reveal_theme: black.css
